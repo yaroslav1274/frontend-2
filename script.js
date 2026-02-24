@@ -1,8 +1,6 @@
-// --- Глобальні змінні стану ---
 let allProducts = [];
 let cart = [];
 
-// --- Елементи DOM ---
 const productsGrid = document.getElementById('products-grid');
 const noProductsMsg = document.getElementById('no-products-msg');
 const cartCountElement = document.getElementById('cart-count');
@@ -11,7 +9,6 @@ const priceMinInput = document.getElementById('price-min');
 const priceMaxInput = document.getElementById('price-max');
 const applyFiltersBtn = document.getElementById('apply-filters-btn');
 
-// Модальне вікно
 const modal = document.getElementById('product-modal');
 const modalImg = document.getElementById('modal-img');
 const modalTitle = document.getElementById('modal-title');
