@@ -17,6 +17,8 @@ const modalDesc = document.getElementById('modal-desc');
 const modalPrice = document.getElementById('modal-price');
 const modalBuyBtn = document.getElementById('modal-buy-btn');
 
+gsap.registerPlugin(ScrollTrigger);
+
 const initApp = async () => {
   loadCartFromStorage();
   updateCartUI();
@@ -47,6 +49,27 @@ const populateCategories = () => {
   });
 };
 
+const animateCardsWithGSAP = () => {
+  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+
+  ScrollTrigger.batch(".product-card", {
+    onEnter: (elements) => {
+      gsap.to(elements, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.15,
+        duration: 0.3,
+        ease: "power3.out",
+        overwrite: true
+      });
+    },
+    start: "top 85%",
+    once: true
+  });
+
+  gsap.set(".product-card", { y: 50, opacity: 0 });
+};
+
 const renderProducts = (productsToRender) => {
   productsGrid.innerHTML = ''; 
 
@@ -59,10 +82,9 @@ const renderProducts = (productsToRender) => {
   productsGrid.classList.remove('hidden');
   noProductsMsg.classList.add('hidden');
 
-  productsToRender.forEach((product, index) => {
+  productsToRender.forEach((product) => {
     const card = document.createElement('article');
-    card.className = `bg-gray-800 border border-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:shadow-emerald-900/20 hover:border-gray-600 transition-all duration-300 card-appear flex flex-col`;
-    card.style.animationDelay = `${index * 0.1}s`;
+    card.className = `product-card bg-gray-800 border border-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:shadow-emerald-900/20 hover:border-gray-600 transition-all duration-300 flex flex-col opacity-0`;
 
     card.innerHTML = `
       <div class="cursor-pointer flex-grow" onclick="openModal('${product.id}')">
@@ -75,13 +97,15 @@ const renderProducts = (productsToRender) => {
       </div>
       <div class="p-4 border-t border-gray-700 flex justify-between items-center bg-gray-800/50 mt-auto">
         <span class="text-lg font-bold text-emerald-400">${product.price} ₴</span>
-        <button onclick="addToCart('${product.id}')" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded transition-colors duration-300 shadow-md">
+        <button onclick="addToCart('${product.id}')" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded transition-colors duration-300 shadow-md relative z-10">
           Купити
         </button>
       </div>
     `;
     productsGrid.appendChild(card);
   });
+
+  animateCardsWithGSAP();
 };
 
 const loadCartFromStorage = () => {

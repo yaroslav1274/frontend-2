@@ -1,5 +1,5 @@
 .logo-container {
-  animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation: popIn 0.8s forwards;
   opacity: 0;
   transform: translateY(20px) scale(0.9);
 }
@@ -8,19 +8,6 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
-  }
-}
-
-.card-appear {
-  animation: fadeUp 0.5s ease-out forwards;
-  opacity: 0;
-  transform: translateY(15px);
-}
-
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
